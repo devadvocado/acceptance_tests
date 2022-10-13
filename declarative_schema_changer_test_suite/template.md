@@ -1,10 +1,10 @@
 <!-- Acceptance Testing 22.2 Release -->
 #  **`[FEATURE]` Acceptance Testing - v22.2**
 
-## Results:
+## **Results:**
 Function | Local Single Node Cluster | CC MR Cluster
 :---------------- | :-------------| :-------------|
-`ALTER TABLE...ADD COLUMN` | ✅ |  ✅ |
+`FEATURE` | ✅ or ❌ |  ✅  or ❌ |
 
 ## **Environments**
 <!-- Local Single Node Environment -->
@@ -53,9 +53,9 @@ cockroach sql --url "postgresql://kevin:<PASSWORD>@quiet-kc-schema-test-6qbm.aws
 ```sql
 USE movr;
 ```
-## Test Suite
+## **Test Suite**
 
-### Initial State
+### **Initial State**
 
 ```
 SHOW CREATE TABLE users;
@@ -71,38 +71,18 @@ SHOW CREATE TABLE users;
              | )
 (1 row)
 ```
-<!-- Single Node Cluster Test Suite -->
+### **Expected Behavior**
+If the schema change is using CRDB's new declarative schema changer, we expect the job of the schema change to be `NEW SCHEMA CHANGE`. You can show just schema change jobs by using SHOW JOBS as the data source for a SELECT statement, and then filtering the job_type value with the WHERE clause:
+```
+WITH x AS (SHOW JOBS) SELECT * FROM x WHERE job_type = 'NEW SCHEMA CHANGE';
+```
 ## **Single Node Cluster Test Suite**
 
-1. Add columns:
+1. blah blah blah:
 ```
-ALTER TABLE users ADD COLUMN pronouns STRING, ADD COLUMN is_awesome BOOL DEFAULT true;
 ```
-2. Show jobs to validate it used the `NEW SCHEMA CHANGE`:
-```
-WITH x AS (SHOW JOBS) SELECT * FROM x WHERE job_type = 'NEW SCHEMA CHANGE';
-...
-  804817527428317185 | NEW SCHEMA CHANGE | ALTER TABLE movr.public.users ADD COLUMN pronouns STRING, ADD COLUMN is_awesome BOOL DEFAULT true                          | ALTER TABLE movr.public.users ADD COLUMN pronouns STRING, ADD COLUMN is_awesome BOOL DEFAULT true | demo      | succeeded | NULL                | 2022-10-13 17:13:37.672785 | 2022-10-13 17:13:37.720096 | 2022-10-13 17:13:37.841893 | 2022-10-13 17:13:37.841032 |                  1 |       |              1 | 2019276373533090571 | 2022-10-13 17:13:37.720096 | 2022-10-13 17:14:07.720096 |        1 | {}
-...
-```
-
-<!-- MR Cluster Test Suite -->
 ## **MR Cluster Test Suite**
-1. Add columns:
+1. blah blah blah:
 ```
-ALTER TABLE users ADD COLUMN pronouns STRING, ADD COLUMN is_awesome BOOL DEFAULT true;
 ```
-2. Show jobs to validate it used the `NEW SCHEMA CHANGE`:
-```
-WITH x AS (SHOW JOBS) SELECT * FROM x WHERE job_type = 'NEW SCHEMA CHANGE';
-...
-  804818094578106375 | NEW SCHEMA CHANGE | ALTER TABLE movr.public.users ADD COLUMN pronouns STRING, ADD COLUMN is_awesome BOOL DEFAULT true | ALTER TABLE movr.public.users ADD COLUMN pronouns STRING, ADD COLUMN is_awesome BOOL DEFAULT true | kevin     | succeeded | NULL           | 2022-10-13 17:16:30.502292 | 2022-10-13 17:16:31.589544 | 2022-10-13 17:16:59.137665 | 2022-10-13 17:16:59.13633 |                  1 |       |              7 | 2135555368206288889 | 2022-10-13 17:16:31.589545 | 2022-10-13 17:17:01.589545 |        1 | {}
-...
-```
-
-## **Acceptance Test**
-
-
-
-<!-- Notes -->
 ## **Notes**
