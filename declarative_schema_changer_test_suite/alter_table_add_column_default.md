@@ -102,3 +102,4 @@ WITH x AS (SHOW JOBS) SELECT * FROM x WHERE job_type = 'NEW SCHEMA CHANGE';
 ...
 ```
 ## **Notes**
+With `set use_declarative_schema_changer = unsafe_always`, both local and CC MR cluster still used the new schema changer.
