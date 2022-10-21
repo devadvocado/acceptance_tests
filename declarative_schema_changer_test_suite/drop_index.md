@@ -1,5 +1,10 @@
 <!-- Acceptance Testing 22.2 Release -->
-#  [FEATURE] Acceptance Testing - v22.2
+#  [CREATE INDEX] Acceptance Testing - v22.2
+
+## **Results:**
+Function | Local Single Node Cluster | CC MR Cluster
+:---------------- | :-------------| :-------------|
+`DROP INDEX` | ❌ |  ❌ |
 
 ## Setup
 <!-- Local Single Node Environment -->
@@ -32,8 +37,50 @@ Storage - 15 GiB ($0.008/hr)
 <!-- Single Node Cluster Test Suite -->
 ## Single Node Cluster Test Suite
 
+1. Create a new index:
+```
+CREATE INDEX ON users (city, id);
+```
+2. Drop the index:
+```
+DROP INDEX users@users_city_idx;
+```
+1. Show jobs after you drop index to see if it used the `NEW SCHEMA CHANGE`:
+```
+WITH x AS (SHOW JOBS) SELECT * FROM x WHERE job_type = 'NEW SCHEMA CHANGE';
+...
+
+...
+```
+4. Use `SCHEMA CHANGE` in jobs search to find it:
+```
+...
+  807099454268375041 | SCHEMA CHANGE | DROP INDEX movr.public.users@users_city_idx                               |           | demo      | succeeded | NULL           | 2022-10-21 18:40:06.482996 | 2022-10-21 18:40:06.529877 | 2022-10-21 18:40:06.593993 | 2022-10-21 18:40:06.592837 |                  1 |       |              1 | 5101843398805637073 | 2022-10-21 18:40:06.529877 | 2022-10-21 18:40:36.529877 |        1 | {}
+...
+```
 <!-- MR Cluster Test Suite -->
 ## MR Cluster Test Suite
+1. Create a new index:
+```
+CREATE INDEX ON users (city, id);
+```
+2. Drop the index:
+```
+DROP INDEX users@users_city_idx;
+```
+1. Show jobs after you drop index to see if it used the `NEW SCHEMA CHANGE`:
+```
+WITH x AS (SHOW JOBS) SELECT * FROM x WHERE job_type = 'NEW SCHEMA CHANGE';
+...
+
+...
+```
+4. Use `SCHEMA CHANGE` in jobs search to find it:
+```
+...
+  807099454268375041 | SCHEMA CHANGE | DROP INDEX movr.public.users@users_city_idx                               |           | demo      | succeeded | NULL           | 2022-10-21 18:40:06.482996 | 2022-10-21 18:40:06.529877 | 2022-10-21 18:40:06.593993 | 2022-10-21 18:40:06.592837 |                  1 |       |              1 | 5101843398805637073 | 2022-10-21 18:40:06.529877 | 2022-10-21 18:40:36.529877 |        1 | {}
+...
+```
 
 <!-- Notes -->
 ## Notes

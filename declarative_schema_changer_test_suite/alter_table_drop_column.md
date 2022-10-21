@@ -79,11 +79,15 @@ WITH x AS (SHOW JOBS) SELECT * FROM x WHERE job_type = 'NEW SCHEMA CHANGE';
 ```
 ## **Single Node Cluster Test Suite**
 
-1. Drop column:
+1. Add column:
+```
+ALTER TABLE users ADD COLUMN pronouns STRING, ADD COLUMN is_awesome BOOL DEFAULT true;
+```
+2. Drop column:
 ```
 ALTER TABLE users DROP COLUMN is_awesome;
 ```
-2. Show jobs to validate it used the `NEW SCHEMA CHANGE`:
+3. Show jobs to validate it used the `NEW SCHEMA CHANGE`:
 ```
 WITH x AS (SHOW JOBS) SELECT * FROM x WHERE job_type = 'NEW SCHEMA CHANGE';
 ...
@@ -91,11 +95,15 @@ WITH x AS (SHOW JOBS) SELECT * FROM x WHERE job_type = 'NEW SCHEMA CHANGE';
 ...
 ```
 ## **MR Cluster Test Suite**
-1. Drop column:
+1. Add column:
 ```
 ALTER TABLE users ADD COLUMN pronouns STRING, ADD COLUMN is_awesome BOOL DEFAULT true;
 ```
-2. Show jobs to validate it used the `NEW SCHEMA CHANGE`:
+2. Drop column:
+```
+ALTER TABLE users DROP COLUMN is_awesome;
+```
+3. Show jobs to validate it used the `NEW SCHEMA CHANGE`:
 ```
 WITH x AS (SHOW JOBS) SELECT * FROM x WHERE job_type = 'NEW SCHEMA CHANGE';
 ...
